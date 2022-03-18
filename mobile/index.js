@@ -347,7 +347,7 @@ function update() {
     if (player.score >= 1 && !player.finished){
 		//player.highscore = player.score;
 		var xmlhttp = new XMLHttpRequest();
-        var url = "https://unidorno.github.io/PongGameBot/highscore/" + player.score + "?id=" + playerid;
+        var url = "https://fiverrpong.herokuapp.com/highscore/" + player.score + "?id=" + playerid;
        	var sendingText = document.getElementById("sendingText");
         sendingText.style.display = "block";
 
