@@ -10,26 +10,36 @@ const bot = new TelegramBot(TOKEN, {
 const port = process.env.PORT || 5000;
 const gameName = "pong";
 const queries = {};
-bot.onText(/help/, (msg) => bot.sendMessage(msg.from.id, "This bot implements a T-Rex jumping game. Say /game if you want to play."));
+let is_verified = []
+
+const hellomessage = 'Hi, with the help of this bot you can get verified by winning in a pong game. \n\nTo get verified, you need to win our AI 3 times.\n\n🎮 Press Play button to start'
+const already_verified = '✅ You are already verified'
+const now_verified = '✅ You are verified now. Good job!'
 bot.onText(/start|game/, (msg) => {
-    bot.sendGame(msg.from.id, gameName)
-    let query = queries[req.query.id];
-    let options;
-    if (query.message) {
-        options = {
-            chat_id: query.message.chat.id,
-            message_id: query.message.message_id
-        };
-    } else {
-        options = {
-            inline_message_id: query.inline_message_id
-        };
+
+    const { chat, message_id, text } = msg
+    if (is_verified[chat.id] === undefined){
+        bot.sendMessage(chat.id, hellomessage, {
+            parse_mode: 'HTML',
+        })
+        .then(() => {
+            bot.sendGame(msg.from.id, gameName, {
+                protect_content: true
+            })
+        })
     }
 
-    bot.getGameHighScores(msg.from.id, options).catch(err => {console.log('here:' + err)})
+    if (is_verified[chat.id] !== undefined && is_verified[chat.id] === true){
+        bot.sendMessage(chat.id, already_verified, {
+            parse_mode: 'HTML',
+        })
+        
+    }
 });
 
 bot.on("callback_query", function (query) {
+    const { chat, message_id, text } = query.message
+
     if (query.game_short_name !== gameName) {
         bot.answerCallbackQuery(query.id, "Sorry, '" + query.game_short_name + "' is not available.");
     } else {
@@ -53,7 +63,7 @@ server.use(express.static(path.join(__dirname, 'mobile')));
 server.get("/highscore/:score", function (req, res, next) {
     if (!Object.hasOwnProperty.call(queries, req.query.id)) return next();
     let query = queries[req.query.id];
-    let options;
+    /* let options;
     if (query.message) {
         options = {
             chat_id: query.message.chat.id,
@@ -63,8 +73,12 @@ server.get("/highscore/:score", function (req, res, next) {
         options = {
             inline_message_id: query.inline_message_id
         };
-    }
-    bot.setGameScore(query.from.id, parseInt(req.params.score), options,
-        function (err, result) {});
+    } */
+    bot.sendMessage(query.message.chat.id, now_verified, {
+        parse_mode: 'HTML'
+    })
+    is_verified[chat.id] = true
+    /* bot.setGameScore(query.from.id, parseInt(req.params.score), options,
+        function (err, result) {}); */
 });
 server.listen(port);
