@@ -1,0 +1,26 @@
+{
+  "name": "dr_bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "geopoint": "^1.0.1",
+    "google-spreadsheet": "^3.1.15",
+    "googleapis": "^39.2.0",
+    "mongoose": "^5.12.7",
+    "node-geocoder": "^3.27.0",
+    "node-postpone": "^0.1.2",
+    "node-telegram-bot-api": "^0.52.0",
+    "socks5-https-client": "^1.2.1",
+    "tinder": "^1.19.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
