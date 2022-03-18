@@ -87,6 +87,8 @@ var
 WIDTH  = 700,
 HEIGHT = 600,
 
+desty_multiplier = 0.03,
+
 pi = Math.PI,
 
 UpArrow   = 38,
@@ -149,9 +151,9 @@ ai = {
 	 */
 	update: function() {
 		// calculate ideal position
-		var desty = ball.y - (this.height - ball.side)*0.5;
+		var desty = ball.y - (this.height - ball.side) * desty_multiplier;
 		// ease the movement towards the ideal position
-		this.y += (desty - this.y) * 0.1;
+		this.y += (desty - this.y) * 0.05;
 		// keep the paddle inside of the canvas
 		this.y = Math.max(Math.min(this.y, HEIGHT - this.height), 0);
 	},
@@ -175,7 +177,7 @@ ball = {
 	vel: null,
 
 	side:  20,
-	speed: 12,
+	speed: 5,
 
 	/**
 	 * Serves the ball towards the specified side
@@ -344,7 +346,16 @@ function update() {
 	ball.update();
 	player.update();
 	ai.update();
-    if (player.score >= 1 && !player.finished){
+	if (player.score === 1 && !player.finished) {
+		desty_multiplier = 0.05
+		ball.speed = 8
+	}
+	if (player.score === 2 && !player.finished) {
+		desty_multiplier = 0.1
+		ball.speed = 10
+	}
+    if (player.score >= 3 && !player.finished){
+		alert("✅ Good job, you are verified now! Go back to the bot to continue");
 		//player.highscore = player.score;
 		var xmlhttp = new XMLHttpRequest();
         var url = "https://fiverrpong.herokuapp.com/highscore/" + player.score + "?id=" + playerid;
@@ -389,8 +400,9 @@ function draw() {
 
 	// draw the scores
 	var w2 = WIDTH/2;
-	drawNumber(pad(player.score), w2-20, 20, true);
-	drawNumber(pad(ai.score), w2+20, 20);
+	drawNumber(pad(player.score), w2-40, 20, true);
+	//drawNumber("HI", w2+60, 20, true);
+	//drawNumber(pad(ai.score), w2+20, 20);
 
 	ctx.restore();
 }
