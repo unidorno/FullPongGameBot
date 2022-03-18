@@ -11,7 +11,24 @@ const port = process.env.PORT || 5000;
 const gameName = "pong";
 const queries = {};
 bot.onText(/help/, (msg) => bot.sendMessage(msg.from.id, "This bot implements a T-Rex jumping game. Say /game if you want to play."));
-bot.onText(/start|game/, (msg) => bot.sendGame(msg.from.id, gameName));
+bot.onText(/start|game/, (msg) => {
+    bot.sendGame(msg.from.id, gameName)
+    let query = queries[req.query.id];
+    let options;
+    if (query.message) {
+        options = {
+            chat_id: query.message.chat.id,
+            message_id: query.message.message_id
+        };
+    } else {
+        options = {
+            inline_message_id: query.inline_message_id
+        };
+    }
+
+    bot.getGameHighScores(msg.from.id, options).catch(err => {console.log('here:' + err)})
+});
+
 bot.on("callback_query", function (query) {
     if (query.game_short_name !== gameName) {
         bot.answerCallbackQuery(query.id, "Sorry, '" + query.game_short_name + "' is not available.");
