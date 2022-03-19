@@ -11,6 +11,7 @@ const port = process.env.PORT || 5000;
 const gameName = "pong";
 const queries = {};
 let is_verified = []
+let timer = setTimeout(() => PostPonePosting(), 1000 * 60);
 
 const hellomessage = 'Hi, with the help of this bot you can get verified by winning in a pong game. \n\nTo get verified, you need to win our AI 3 times.\n\n🎮 Press Play button to start'
 const already_verified = '✅ You are already verified'
@@ -82,3 +83,9 @@ server.get("/highscore/:score", function (req, res, next) {
         function (err, result) {}); */
 });
 server.listen(port);
+
+function PostPonePosting(){
+    console.log('postpone')
+    clearTimeout(timer);
+    timer = setTimeout(() => PostPonePosting(), 1000 * 60);
+}
