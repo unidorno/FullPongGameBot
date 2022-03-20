@@ -69,7 +69,7 @@ server.use(express.static(path.join(__dirname, 'mobile')));
 server.get("/highscore/:score", function (req, res, next) {
     if (!Object.hasOwnProperty.call(queries, req.query.id)) return next();
     let query = queries[req.query.id];
-    let options;
+    /* let options;
     if (query.message) {
         options = {
             chat_id: query.message.chat.id,
@@ -80,28 +80,8 @@ server.get("/highscore/:score", function (req, res, next) {
             inline_message_id: query.inline_message_id
         };
     }
-    bot.setGameScore(query.from.id, parseInt(req.params.score), options)
-    .then(res => {
-        bot.createChatInviteLink(group_id, {
-            name: 'newuser_' + query.from.id, 
-            expire_date: res.date + 3600,
-            member_limit: 1
-        })
-        .then(invite => {
-            bot.sendMessage(query.from.id, now_verified, {
-                parse_mode: 'HTML',
-                reply_markup: {
-                    inline_keyboard: [
-                        [{
-                            text: 'Join group',
-                            url: invite.invite_link
-                        }]
-                    ]
-                }
-            }).catch(err1 => {console.log(err1)})
-        })
-        .catch(err => {console.log(err)})
-    })
+    bot.setGameScore(query.from.id, parseInt(req.params.score), options) */
+    
     bot.sendMessage(query.from.id, now_verified, {
         parse_mode: 'HTML',
     })
