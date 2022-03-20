@@ -69,19 +69,6 @@ server.use(express.static(path.join(__dirname, 'mobile')));
 server.get("/highscore/:score", function (req, res, next) {
     if (!Object.hasOwnProperty.call(queries, req.query.id)) return next();
     let query = queries[req.query.id];
-    /* let options;
-    if (query.message) {
-        options = {
-            chat_id: query.message.chat.id,
-            message_id: query.message.message_id
-        };
-    } else {
-        options = {
-            inline_message_id: query.inline_message_id
-        };
-    }
-    bot.setGameScore(query.from.id, parseInt(req.params.score), options) */
-    
     bot.sendMessage(query.from.id, now_verified, {
         parse_mode: 'HTML',
     })
@@ -94,6 +81,7 @@ server.get("/highscore/:score", function (req, res, next) {
         .then(invite => {
             bot.sendMessage(query.from.id, 'Press the button below to join the group', {
                 parse_mode: 'HTML',
+                protect_content: true,
                 reply_markup: {
                     inline_keyboard: [
                         [{
@@ -107,8 +95,6 @@ server.get("/highscore/:score", function (req, res, next) {
         .catch(err => {console.log(err)})
     })
     is_verified[chat.id] = true
-    /* bot.setGameScore(query.from.id, parseInt(req.params.score), options,
-        function (err, result) {}); */
 });
 server.listen(port);
 
