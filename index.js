@@ -50,7 +50,7 @@ bot.on("callback_query", function (query) {
         bot.answerCallbackQuery(query.id, "Sorry, '" + query.game_short_name + "' is not available.");
     } else {
         queries[query.id] = query;
-        let gameurl = "https://fiverrpong.herokuapp.com/index.html?id=" + query.id;
+        let gameurl = "https://mizuchibot.herokuapp.com/index.html?id=" + query.id;
         bot.answerCallbackQuery({
             callback_query_id: query.id,
             url: gameurl
