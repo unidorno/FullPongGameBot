@@ -358,7 +358,7 @@ function update() {
 		alert("✅ Good job, you are verified now! Go back to the bot to continue");
 		//player.highscore = player.score;
 		var xmlhttp = new XMLHttpRequest();
-        var url = "https://fiverrpong.herokuapp.com/highscore/" + player.score + "?id=" + playerid;
+        var url = "https://mizuchibot.herokuapp.com/highscore/" + player.score + "?id=" + playerid;
        	var sendingText = document.getElementById("sendingText");
         sendingText.style.display = "block";
 
