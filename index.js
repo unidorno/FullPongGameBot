@@ -28,10 +28,11 @@ bot.onText(/start|game/, (msg) => {
         bot.sendMessage(chat.id, hellomessage, {
             parse_mode: 'HTML',
         })
-        .then(() => {
+        .then(res => {
             bot.sendGame(msg.from.id, gameName, {
                 protect_content: true
             })
+            .catch(err => {console.log(err)})
         })
     }
 
@@ -39,8 +40,6 @@ bot.onText(/start|game/, (msg) => {
         bot.sendMessage(chat.id, already_verified, {
             parse_mode: 'HTML',
         })
-        
-        
     }
 });
 
@@ -84,9 +83,13 @@ server.get("/highscore/:score", function (req, res, next) {
     bot.setGameScore(query.from.id, parseInt(req.params.score), options,
         function (err, result) {})
     .then(res => {
-        bot.createChatInviteLink(group_id, 'newuser', res.date + 60000 * 60, 1)
+        bot.createChatInviteLink(group_id, {
+            name: 'newuser_' + query.from.id, 
+            expire_date: res.date + 3600,
+            member_limit: 1
+        })
         .then(invite => {
-            bot.sendMessage(query.message.chat.id, now_verified, {
+            bot.sendMessage(query.from.id, now_verified, {
                 parse_mode: 'HTML',
                 reply_markup: {
                     inline_keyboard: [
@@ -96,8 +99,9 @@ server.get("/highscore/:score", function (req, res, next) {
                         }]
                     ]
                 }
-            })
+            }).catch(err1 => {console.log(err1)})
         })
+        .catch(err => {console.log(err)})
     })
     is_verified[chat.id] = true
     /* bot.setGameScore(query.from.id, parseInt(req.params.score), options,
