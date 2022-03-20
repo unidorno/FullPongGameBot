@@ -7,7 +7,7 @@ const server = express();
 const bot = new TelegramBot(TOKEN, {
     polling: true
 });
-const group_id = -1001614284951
+const group_id = -1001667894450
 const port = process.env.PORT || 5000;
 const gameName = "pong";
 const queries = {};
