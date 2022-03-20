@@ -14,7 +14,7 @@ const queries = {};
 let is_verified = []
 let timer = setTimeout(() => PostPonePosting(), 1000 * 60);
 
-const hellomessage = 'Hi, with the help of this bot you can get verified by winning in a pong game. \n\nTo get verified, you need to win our AI 3 times.\n\n🎮 Press Play button to start'
+const hellomessage = '👋 Hi, with the help of this bot you can get verified by winning in a pong game. \n\nTo get verified, you need to win our AI 3 times.\n\n🎮 Press Play button to start'
 const already_verified = '✅ You are already verified'
 const now_verified = '✅ You are verified now. Good job!'
 bot.on('message', msg => {
