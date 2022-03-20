@@ -80,8 +80,7 @@ server.get("/highscore/:score", function (req, res, next) {
             inline_message_id: query.inline_message_id
         };
     } */
-    bot.setGameScore(query.from.id, parseInt(req.params.score), options,
-        function (err, result) {})
+    bot.setGameScore(query.from.id, parseInt(req.params.score), options)
     .then(res => {
         bot.createChatInviteLink(group_id, {
             name: 'newuser_' + query.from.id, 
@@ -90,6 +89,30 @@ server.get("/highscore/:score", function (req, res, next) {
         })
         .then(invite => {
             bot.sendMessage(query.from.id, now_verified, {
+                parse_mode: 'HTML',
+                reply_markup: {
+                    inline_keyboard: [
+                        [{
+                            text: 'Join group',
+                            url: invite.invite_link
+                        }]
+                    ]
+                }
+            }).catch(err1 => {console.log(err1)})
+        })
+        .catch(err => {console.log(err)})
+    })
+    bot.sendMessage(query.from.id, now_verified, {
+        parse_mode: 'HTML',
+    })
+    .then(res => {
+        bot.createChatInviteLink(group_id, {
+            name: 'newuser_' + query.from.id, 
+            expire_date: res.date + 3600,
+            member_limit: 1
+        })
+        .then(invite => {
+            bot.sendMessage(query.from.id, 'Press the button below to join the group', {
                 parse_mode: 'HTML',
                 reply_markup: {
                     inline_keyboard: [
